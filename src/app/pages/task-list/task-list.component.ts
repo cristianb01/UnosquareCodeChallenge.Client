@@ -24,5 +24,13 @@ export class TaskListComponent implements OnInit{
     this.tasks$ = this.taskService.getAll();
   }
 
+  public async onMarkAsCompleted(task: UnosquareTask) {
+
+  }
+
+  public async onDeleteTask(task: UnosquareTask) {
+
+  }
+
 
 }

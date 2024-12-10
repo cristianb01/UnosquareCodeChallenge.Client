@@ -3,17 +3,4 @@
         <app-unosquare-task [task]="task" (deleteTask)="onDeleteTask($event)"
             (markAsCompleted)="onMarkAsCompleted($event)"/>
     }
-
-    <div class="paginator">
-        <span>Page: {{ currentPage + 1 }}</span>
-        <button class="button" 
-            (click)="onPreviousPageButtonClick()"
-            [disabled]="currentPage == 0">
-            <
-        </button>
-        <button class="button" 
-            (click)="onNextPageButtonClick()">
-            >
-        </button>
-    </div>
 </div>

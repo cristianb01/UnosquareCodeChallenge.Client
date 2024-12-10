@@ -1,6 +1,7 @@
 export interface UnosquareTask {
-    id: number;
+    id?: number;
     title: string;
-    dueDate: Date;
+    description?: string;
+    dueDate?: Date;
     isCompleted: boolean;
 }

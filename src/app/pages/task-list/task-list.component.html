@@ -1,3 +1,19 @@
-@for (task of tasks; track task.id) {
-    
-}
+<div class="task-list-wrapper">
+    @for (task of (tasks$ | async); track task.title) {
+        <app-unosquare-task [task]="task" (deleteTask)="onDeleteTask($event)"
+            (markAsCompleted)="onMarkAsCompleted($event)"/>
+    }
+
+    <div class="paginator">
+        <span>Page: {{ currentPage + 1 }}</span>
+        <button class="button" 
+            (click)="onPreviousPageButtonClick()"
+            [disabled]="currentPage == 0">
+            <
+        </button>
+        <button class="button" 
+            (click)="onNextPageButtonClick()">
+            >
+        </button>
+    </div>
+</div>

@@ -35,7 +35,7 @@ export class UnosquareTaskComponent implements OnInit {
       title: [this.task?.title, Validators.required],
       description: [this.task?.description, Validators.required],
       dueDate: [this.task ? formatDate(this.task?.dueDate!, 'yyyy-MM-dd', 'en') : new Date(), Validators.required],
-      completed: [false]
+      completed: [this.task ? this.task.isCompleted : false]
     });
   }
 
@@ -55,7 +55,7 @@ export class UnosquareTaskComponent implements OnInit {
 
   public mapFormToTask(): UnosquareTask {
     return {
-      id: this.task.id,
+      id: this.task?.id,
       isCompleted: this.form.controls['completed'].value!,
       description: this.form.controls['description'].value!,
       dueDate: this.form.controls['dueDate'].value!,

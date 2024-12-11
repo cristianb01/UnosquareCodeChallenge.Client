@@ -9,14 +9,13 @@ import { AlertService } from './alert.service';
 })
 export class UnosquareTasksService {
 
-  private controllerUrl = 'https://localhost:44354/api/UnosquareTask';
+  private controllerUrl = 'https://localhost:44354/api/tasks';
 
   constructor(private httpClient: HttpClient, private alertService: AlertService) { 
 
   }
 
   public getAll(filterCompletedTasks: string | null): Observable<UnosquareTask[]> {
-    debugger
     let params = new HttpParams();
 
     if (filterCompletedTasks != null && filterCompletedTasks != '0') {

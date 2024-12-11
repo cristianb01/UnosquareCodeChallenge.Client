@@ -37,3 +37,8 @@ input {
 .mark-as-completed-button {
     background-color: green;
 }
+
+.save-changes-button:disabled,
+.save-changes-button[disabled] {
+    opacity: 0.5;
+}

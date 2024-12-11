@@ -1,6 +1,6 @@
 <form class="task-wrapper" [formGroup]="form">
-    <input type="text" formControlName="title">
-    <input type="text" formControlName="description">
+    <input type="text" formControlName="title" placeholder="title">
+    <input type="text" formControlName="description" placeholder="description">
     <input type="date" formControlName="dueDate">
 
     @if (!isCreateMode) {
@@ -17,5 +17,8 @@
         </div>
     }
 
-    <button class="button" (click)="onSaveChangesButtonClick()">Save changes</button>
+    @if (isCreateMode)
+    {
+        <button class="button save-changes-button" (click)="onSaveChangesButtonClick()" [disabled]="form.pristine || form.invalid">Save changes</button>
+    }
 </form>

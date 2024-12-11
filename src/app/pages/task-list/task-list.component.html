@@ -1,14 +1,22 @@
-<label for="filter-by-completed">Filter by status:</label>
-<select [(ngModel)]="filterByCompleted" id="filter-by-completed" (ngModelChange)="onFilterChange()">
-    <option [value]="0">--</option>
-    <option [value]="true">Completed</option>
-    <option [value]="false">Not completed</option>
-</select>
-<br>
+<div class="mb-3">
+    <label for="filter-by-completed">Filter by status:</label>
+    <select [(ngModel)]="filterByCompleted" id="filter-by-completed" (ngModelChange)="onFilterChange()">
+        <option [value]="0" selected>--</option>
+        <option [value]="true">Completed</option>
+        <option [value]="false">Not completed</option>
+    </select>
+</div>
+
 
 <div class="task-list-wrapper">
     @for (task of tasks; track task.id) {
         <app-unosquare-task [task]="task" (deleteTask)="onDeleteTask($event)"
             (markAsCompleted)="onMarkAsCompleted($event)"/>
     }
+    @empty {
+        <h2>No taks to show with specified filters</h2>
+    }
 </div>
+
+
+<button [routerLink]="['/create-task']" class="mt-5" routerLinkActive="router-link-active" >Go to create task</button>

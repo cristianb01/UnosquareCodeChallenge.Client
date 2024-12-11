@@ -5,10 +5,11 @@ import { lastValueFrom, Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { UnosquareTaskComponent } from "../../components/unosquare-task/unosquare-task.component";
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-task-list',
-  imports: [CommonModule, UnosquareTaskComponent, FormsModule],
+  imports: [CommonModule, UnosquareTaskComponent, FormsModule, RouterModule],
   templateUrl: './task-list.component.html',
   styleUrl: './task-list.component.scss'
 })
@@ -18,7 +19,7 @@ export class TaskListComponent implements OnInit{
 
   public tasks!: UnosquareTask[];
 
-  public filterByCompleted: boolean | null = null;
+  public filterByCompleted!: boolean | null;
 
   constructor() {
   }
@@ -36,10 +37,10 @@ export class TaskListComponent implements OnInit{
   }
 
   public async onMarkAsCompleted(task: UnosquareTask) {
-    debugger
     const completedTask = {...task};
     completedTask.isCompleted = true;
     await lastValueFrom(this.taskService.update(completedTask));
+    await this.loadTasks();
   }
 
   public async onDeleteTask(task: UnosquareTask) {

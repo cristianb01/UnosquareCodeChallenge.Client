@@ -31,7 +31,7 @@ export class TaskListComponent implements OnInit{
     this.tasks$ = this.taskService.getAll(this.filterByCompleted);
   }
 
-  public onFilterChange(newValue: boolean | null) {
+  public onFilterChange() {
     this.loadTasks();
   }
 

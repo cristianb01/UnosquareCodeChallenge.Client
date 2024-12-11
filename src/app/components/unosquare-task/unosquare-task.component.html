@@ -3,17 +3,19 @@
     <input type="text" formControlName="description">
     <input type="date" formControlName="dueDate">
 
-    <div class="buttons-container">
-        <button class="button delete-button"
-            (click)="onDeleteButtonClick()">
-            Delete
-        </button>
-        @if (!task.isCompleted) {
-            <button class="button mark-as-completed-button" (click)="onMarkAsCompletedButtonClick()">
-                Mark as completed
+    @if (!isCreateMode) {
+        <div class="buttons-container">
+            <button class="button delete-button"
+                (click)="onDeleteButtonClick()">
+                Delete
             </button>
-        }
-    </div>
+            @if (!task.isCompleted) {
+                <button class="button mark-as-completed-button" (click)="onMarkAsCompletedButtonClick()">
+                    Mark as completed
+                </button>
+            }
+        </div>
+    }
 
     <button class="button" (click)="onSaveChangesButtonClick()">Save changes</button>
 </form>

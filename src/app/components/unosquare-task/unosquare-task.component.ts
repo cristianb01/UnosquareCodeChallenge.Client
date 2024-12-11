@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UnosquareTask } from '../../models/task.model';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { formatDate } from '@angular/common';
+import { UnosquareTasksService } from '../../services/unosquare-tasks.service';
 
 @Component({
   selector: 'app-unosquare-task',
@@ -13,13 +14,15 @@ export class UnosquareTaskComponent implements OnInit {
   
   @Input() public task!: UnosquareTask;
 
+  @Input() public isCreateMode!: boolean;
+
   @Output() deleteTask: EventEmitter<UnosquareTask> = new EventEmitter();
 
   @Output() markAsCompleted: EventEmitter<UnosquareTask> = new EventEmitter();
 
   public form!: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private taskService: UnosquareTasksService) {
   }
 
   ngOnInit(): void {
@@ -28,9 +31,9 @@ export class UnosquareTaskComponent implements OnInit {
 
   private initializeForm(): FormGroup {
     return this.formBuilder.group({
-      title: [this.task.title, Validators.required],
-      description: [this.task.description, Validators.required],
-      dueDate: [formatDate(this.task.dueDate!, 'yyyy-MM-dd', 'en'), Validators.required],
+      title: [this.task?.title, Validators.required],
+      description: [this.task?.description, Validators.required],
+      dueDate: [this.task ? formatDate(this.task?.dueDate!, 'yyyy-MM-dd', 'en') : new Date(), Validators.required],
       completed: [false]
     });
   }
@@ -38,6 +41,13 @@ export class UnosquareTaskComponent implements OnInit {
   public formSubmit(): void {
     if (this.form.valid) {
       const mappedTask = this.mapFormToTask();
+
+      if (this.isCreateMode) {
+        this.taskService.create(mappedTask);
+      }
+      else {
+        this.taskService.update(mappedTask);
+      }
       //TODO call Serive and api
     }
   }

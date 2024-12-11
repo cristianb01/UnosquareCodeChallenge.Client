@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { UnosquareTaskComponent } from "../../components/unosquare-task/unosquare-task.component";
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
   selector: 'app-task-list',
@@ -21,7 +22,7 @@ export class TaskListComponent implements OnInit{
 
   public filterByCompleted!: boolean | null;
 
-  constructor() {
+  constructor(private alertService: AlertService) {
   }
 
   async ngOnInit() {
@@ -39,12 +40,17 @@ export class TaskListComponent implements OnInit{
   public async onMarkAsCompleted(task: UnosquareTask) {
     const completedTask = {...task};
     completedTask.isCompleted = true;
-    await lastValueFrom(this.taskService.update(completedTask));
-    await this.loadTasks();
+    try {
+      await lastValueFrom(this.taskService.update(completedTask));
+      this.alertService.showSuccess("Task marked as completed succesfully");
+      await this.loadTasks();
+    }
+    catch(error) {}
   }
 
   public async onDeleteTask(task: UnosquareTask) {
     await lastValueFrom(this.taskService.delete(task.id!));
+    this.alertService.showSuccess("Task marked deleted succesfully");
     this.loadTasks();
   }
 

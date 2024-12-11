@@ -9,7 +9,7 @@ import { AlertService } from './alert.service';
 })
 export class UnosquareTasksService {
 
-  private controllerUrl = 'https://localhost:44354/api/tasks';
+  private controllerUrl = 'http://localhost:5192/api/tasks';
 
   constructor(private httpClient: HttpClient, private alertService: AlertService) { 
 

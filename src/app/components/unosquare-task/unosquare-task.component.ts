@@ -4,6 +4,8 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { formatDate } from '@angular/common';
 import { UnosquareTasksService } from '../../services/unosquare-tasks.service';
 import { lastValueFrom } from 'rxjs';
+import { AlertService } from '../../services/alert.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-unosquare-task',
@@ -23,7 +25,10 @@ export class UnosquareTaskComponent implements OnInit {
 
   public form!: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private taskService: UnosquareTasksService) {
+  constructor(private formBuilder: FormBuilder,
+    private taskService: UnosquareTasksService,
+    private alertService: AlertService,
+    private router: Router) {
   }
 
   ngOnInit(): void {
@@ -44,10 +49,19 @@ export class UnosquareTaskComponent implements OnInit {
       const mappedTask = this.mapFormToTask();
 
       if (this.isCreateMode) {
-        await lastValueFrom(this.taskService.create(mappedTask));
+        try {
+          await lastValueFrom(this.taskService.create(mappedTask));
+          this.alertService.showSuccess("Task created succesfully");
+          this.router.navigate(['task-list']);
+        }
+        catch(e){}
       }
       else {
-        await lastValueFrom(this.taskService.update(mappedTask));
+        try {
+          await lastValueFrom(this.taskService.update(mappedTask));
+          this.alertService.showSuccess("Task updated succesfully");
+        }
+        catch(e){}
       }
       //TODO call Serive and api
     }

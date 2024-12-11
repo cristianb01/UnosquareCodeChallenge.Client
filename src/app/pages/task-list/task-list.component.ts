@@ -16,7 +16,7 @@ export class TaskListComponent implements OnInit{
 
   private taskService = inject(UnosquareTasksService);
 
-  public tasks$!: Observable<UnosquareTask[]>;
+  public tasks!: UnosquareTask[];
 
   public filterByCompleted: boolean | null = null;
 
@@ -27,8 +27,8 @@ export class TaskListComponent implements OnInit{
     this.loadTasks();
   }
 
-  private loadTasks(): void {
-    this.tasks$ = this.taskService.getAll(this.filterByCompleted);
+  private async loadTasks() {
+    this.tasks = await lastValueFrom(this.taskService.getAll(this.filterByCompleted != null? this.filterByCompleted.toString() : null));
   }
 
   public onFilterChange() {
@@ -36,7 +36,10 @@ export class TaskListComponent implements OnInit{
   }
 
   public async onMarkAsCompleted(task: UnosquareTask) {
-
+    debugger
+    const completedTask = {...task};
+    completedTask.isCompleted = true;
+    await lastValueFrom(this.taskService.update(completedTask));
   }
 
   public async onDeleteTask(task: UnosquareTask) {

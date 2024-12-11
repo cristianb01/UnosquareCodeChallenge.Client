@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, of } from 'rxjs';
+import { catchError, Observable, of, throwError } from 'rxjs';
 import { UnosquareTask } from '../models/task.model';
 import { AlertService } from './alert.service';
 
@@ -15,11 +15,12 @@ export class UnosquareTasksService {
 
   }
 
-  public getAll(filterCompletedTasks: boolean | null): Observable<UnosquareTask[]> {
+  public getAll(filterCompletedTasks: string | null): Observable<UnosquareTask[]> {
+    debugger
     let params = new HttpParams();
 
-    if (filterCompletedTasks != null) {
-      params = params.set('isCompleted', filterCompletedTasks);
+    if (filterCompletedTasks != null && filterCompletedTasks != '0') {
+      params = params.set('isCompleted', filterCompletedTasks!);
     }
 
     return this.httpClient.get<UnosquareTask[]>(this.controllerUrl, { params: params })
@@ -34,10 +35,18 @@ export class UnosquareTasksService {
   }
 
   public update(task: UnosquareTask): Observable<UnosquareTask> {
-    return this.httpClient.put<UnosquareTask>('', task);
+    return this.httpClient.put<UnosquareTask>(`${this.controllerUrl}/${task.id}`, task)
+    .pipe(catchError(err => {
+      this.alertService.showError("There was a problem when trying to update task");
+      return throwError(task);
+    }));;
   }
 
   public delete(taskId: number): Observable<null> {
-    return this.httpClient.delete<null>(`${this.controllerUrl}/${taskId}`);
+    return this.httpClient.delete<null>(`${this.controllerUrl}/${taskId}`)
+    .pipe(catchError(err => {
+      this.alertService.showError("Could not find task to delete");
+      return of(null)
+    }));;
   }
 }

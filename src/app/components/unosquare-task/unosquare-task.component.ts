@@ -55,6 +55,7 @@ export class UnosquareTaskComponent implements OnInit {
 
   public mapFormToTask(): UnosquareTask {
     return {
+      id: this.task.id,
       isCompleted: this.form.controls['completed'].value!,
       description: this.form.controls['description'].value!,
       dueDate: this.form.controls['dueDate'].value!,

@@ -40,7 +40,8 @@ export class TaskListComponent implements OnInit{
   }
 
   public async onDeleteTask(task: UnosquareTask) {
-
+    await lastValueFrom(this.taskService.delete(task.id!));
+    this.loadTasks();
   }
 
 

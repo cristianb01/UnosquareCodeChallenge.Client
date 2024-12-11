@@ -36,4 +36,8 @@ export class UnosquareTasksService {
   public update(task: UnosquareTask): Observable<UnosquareTask> {
     return this.httpClient.put<UnosquareTask>('', task);
   }
+
+  public delete(taskId: number): Observable<null> {
+    return this.httpClient.delete<null>(`${this.controllerUrl}/${taskId}`);
+  }
 }

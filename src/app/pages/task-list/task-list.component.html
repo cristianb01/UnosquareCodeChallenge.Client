@@ -1,9 +1,10 @@
 <label for="filter-by-completed">Filter by completed</label>
-<select [(ngModel)]="filterByCompleted" id="filter-by-completed">
+<select [(ngModel)]="filterByCompleted" id="filter-by-completed" (ngModelChange)="onFilterChange($event)">
     <option value="null">--</option>
     <option value="true">Yes</option>
     <option value="false">No</option>
 </select>
+<br>
 
 <div class="task-list-wrapper">
     @for (task of (tasks$ | async); track task.title) {

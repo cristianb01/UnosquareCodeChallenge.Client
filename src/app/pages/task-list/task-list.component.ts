@@ -24,7 +24,15 @@ export class TaskListComponent implements OnInit{
   }
 
   async ngOnInit() {
+    this.loadTasks();
+  }
+
+  private loadTasks(): void {
     this.tasks$ = this.taskService.getAll(this.filterByCompleted);
+  }
+
+  public onFilterChange(newValue: boolean | null) {
+    this.loadTasks();
   }
 
   public async onMarkAsCompleted(task: UnosquareTask) {

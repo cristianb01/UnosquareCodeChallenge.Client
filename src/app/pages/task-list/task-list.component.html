@@ -1,8 +1,8 @@
-<label for="filter-by-completed">Filter by completed</label>
+<label for="filter-by-completed">Filter by status:</label>
 <select [(ngModel)]="filterByCompleted" id="filter-by-completed" (ngModelChange)="onFilterChange()">
     <option value="null">--</option>
-    <option value="true">Yes</option>
-    <option value="false">No</option>
+    <option value="true">Completed</option>
+    <option value="false">Not completed</option>
 </select>
 <br>
 

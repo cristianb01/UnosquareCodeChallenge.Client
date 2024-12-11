@@ -30,7 +30,7 @@ export class UnosquareTasksService {
   }
 
   public create(task: UnosquareTask): Observable<UnosquareTask> {
-    return this.httpClient.post<UnosquareTask>('', task);
+    return this.httpClient.post<UnosquareTask>(this.controllerUrl, task);
   }
 
   public update(task: UnosquareTask): Observable<UnosquareTask> {

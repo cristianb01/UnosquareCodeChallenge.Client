@@ -3,6 +3,7 @@ import { UnosquareTask } from '../../models/task.model';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { formatDate } from '@angular/common';
 import { UnosquareTasksService } from '../../services/unosquare-tasks.service';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-unosquare-task',
@@ -38,15 +39,15 @@ export class UnosquareTaskComponent implements OnInit {
     });
   }
 
-  public formSubmit(): void {
+  public async formSubmit() {
     if (this.form.valid) {
       const mappedTask = this.mapFormToTask();
 
       if (this.isCreateMode) {
-        this.taskService.create(mappedTask);
+        await lastValueFrom(this.taskService.create(mappedTask));
       }
       else {
-        this.taskService.update(mappedTask);
+        await lastValueFrom(this.taskService.update(mappedTask));
       }
       //TODO call Serive and api
     }
@@ -72,6 +73,8 @@ export class UnosquareTaskComponent implements OnInit {
     this.markAsCompleted.emit(mappedTask);
   }
 
-  public onSaveChangesButtonClick(): void {}
+  public onSaveChangesButtonClick(): void {
+    this.formSubmit();
+  }
   // #endregion
 }

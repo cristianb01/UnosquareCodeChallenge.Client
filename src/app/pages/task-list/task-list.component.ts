@@ -4,10 +4,11 @@ import { UnosquareTask } from '../../models/task.model';
 import { lastValueFrom, Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { UnosquareTaskComponent } from "../../components/unosquare-task/unosquare-task.component";
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-task-list',
-  imports: [CommonModule, UnosquareTaskComponent],
+  imports: [CommonModule, UnosquareTaskComponent, FormsModule],
   templateUrl: './task-list.component.html',
   styleUrl: './task-list.component.scss'
 })
@@ -17,11 +18,13 @@ export class TaskListComponent implements OnInit{
 
   public tasks$!: Observable<UnosquareTask[]>;
 
+  public filterByCompleted: boolean | null = null;
+
   constructor() {
   }
 
   async ngOnInit() {
-    this.tasks$ = this.taskService.getAll();
+    this.tasks$ = this.taskService.getAll(this.filterByCompleted);
   }
 
   public async onMarkAsCompleted(task: UnosquareTask) {
